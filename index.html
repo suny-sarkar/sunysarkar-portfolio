@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suny Sarkar | Creative Full Stack Developer</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Remix Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=21.0">
+</head>
+<body>
+
+  <!-- Minimalist loading indicator line at top of viewport -->
+  <div id="loader-progress" class="loader-progress-bar"></div>
+
+  <!-- Persistent Volumetric Smoky Atmosphere across Whole Website -->
+  <div class="global-smoke-bg" aria-hidden="true">
+    <div class="smoke-layer smoke-purple-left"></div>
+    <div class="smoke-layer smoke-red-right"></div>
+    <div class="smoke-layer smoke-center-mist"></div>
+    <div class="smoke-layer smoke-purple-mid"></div>
+    <div class="smoke-layer smoke-red-mid"></div>
+  </div>
+
+  <!-- Top Navigation Bar (Preserved Exactly) -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-brand">Suny Sarkar</a>
+      <nav class="nav-links">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">skills</a>
+        <a href="#projects" class="nav-link">Project</a>
+        <a href="#contact" class="nav-link">contact</a>
+      </nav>
+      <!-- Mobile & Tablet Hamburger Line Menu Toggle -->
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile & Tablet Slide-out Drawer Navigation (Inspired by Reference Menu) -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <div class="drawer-brand">
+        <i class="ri-code-s-slash-line"></i>
+        <span>Suny Sarkar</span>
+      </div>
+      <button class="drawer-close-btn" id="drawer-close-btn" aria-label="Close menu">
+        <i class="ri-close-line"></i>
+      </button>
+    </div>
+
+    <nav class="drawer-nav-list">
+      <a href="#hero" class="drawer-nav-item active">
+        <i class="ri-home-4-line"></i>
+        <span>Home</span>
+        <span class="drawer-active-dot"></span>
+      </a>
+      <a href="#about" class="drawer-nav-item">
+        <i class="ri-user-3-line"></i>
+        <span>About Me</span>
+      </a>
+      <a href="#skills" class="drawer-nav-item">
+        <i class="ri-cpu-line"></i>
+        <span>Skills</span>
+      </a>
+      <a href="#projects" class="drawer-nav-item">
+        <i class="ri-folder-open-line"></i>
+        <span>Projects</span>
+      </a>
+      <a href="#experience" class="drawer-nav-item">
+        <i class="ri-briefcase-line"></i>
+        <span>Experience</span>
+      </a>
+      <a href="#contact" class="drawer-nav-item">
+        <i class="ri-mail-send-line"></i>
+        <span>Contact</span>
+      </a>
+    </nav>
+
+    <div class="drawer-footer-block">
+      <div class="drawer-socials">
+        <a href="https://github.com/suny-sarkar" target="_blank" rel="noopener" class="drawer-social-link" title="GitHub"><i class="ri-github-line"></i></a>
+        <a href="https://www.linkedin.com/in/sunysarkar123" target="_blank" rel="noopener" class="drawer-social-link" title="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+        <a href="https://www.instagram.com/suny_sarkar78?igsi=MXJ0eHkxdXlka28zYg==" target="_blank" rel="noopener" class="drawer-social-link" title="Instagram"><i class="ri-instagram-line"></i></a>
+      </div>
+      <span class="drawer-copyright">© 2026 Suny Sarkar</span>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- HERO SECTION WITH BACKGROUND VIDEO ANIMATION -->
+    <section class="hero-track" id="hero">
+      <div class="hero-sticky-stage">
+        <!-- Background Canvas Video Animation -->
+        <div class="hero-canvas-wrapper">
+          <canvas id="animation-canvas"></canvas>
+          <div class="hero-canvas-overlay"></div>
+        </div>
+
+        <!-- Flanking Split Hero Layout (Matching Reference Pin) -->
+        <div class="hero-split-container">
+          <!-- Left Side: Hello, I'm Suny Sarkar -->
+          <div class="hero-flank hero-left" id="hero-left">
+            <span class="hero-flank-greeting">Hello, I'm</span>
+            <h1 class="hero-flank-name">
+              Suny <br />
+              Sarkar
+            </h1>
+          </div>
+
+          <!-- Right Side: Creative Web Developer & AI-ML Engineer -->
+          <div class="hero-flank hero-right" id="hero-right">
+            <span class="hero-flank-greeting">Creative</span>
+            <h2 class="hero-flank-role">
+              Web Developer
+            </h2>
+            <h3 class="hero-flank-subrole">
+              &amp; AI-ML Engineer
+            </h3>
+          </div>
+        </div>
+
+        <!-- Scroll Hint -->
+        <div class="hero-scroll-hint" id="hero-scroll-hint">
+          <span>Scroll to explore</span>
+          <i class="ri-arrow-down-line scroll-arrow"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about-section section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="section-tag resume-tag-link" id="about-resume-link" title="Click to view Resume" aria-label="View Resume">
+            <span>About Me</span>
+            <i class="ri-arrow-right-up-line resume-arrow-icon" aria-hidden="true"></i>
+            <span class="resume-tooltip">View Resume</span>
+          </a>
+          <h2 class="section-title">Creativity <span class="gradient-text">Is My Passion</span></h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card glass-card">
+            <div class="about-icon-wrapper">
+              <i class="ri-code-s-slash-line"></i>
+            </div>
+            <h3>Who I Am</h3>
+            <p>
+              I am Suny Sarkar, a Web Developer &amp; AI/ML Engineer. Building modern web applications and intelligent AI/ML solutions with a focus on innovation, performance, and real-world impact.
+            </p>
+          </div>
+
+          <div class="about-card glass-card">
+            <div class="about-icon-wrapper">
+              <i class="ri-lightbulb-line"></i>
+            </div>
+            <h3>My Philosophy</h3>
+            <p>
+              Every interaction should feel effortless and alive. I leverage smooth hardware-accelerated animations, responsive typography, and minimalist dark aesthetics to create memorable digital impressions.
+            </p>
+          </div>
+
+          <div class="about-card glass-card">
+            <div class="about-icon-wrapper">
+              <i class="ri-rocket-line"></i>
+            </div>
+            <h3>Continuous Growth</h3>
+            <p>
+              Driven by curiosity, I constantly experiment with modern frameworks, high-performance canvas techniques, WebGL, Supabase, and cloud microservices to build scalable, resilient platforms.
+            </p>
+          </div>
+        </div>
+
+        <!-- Quick Metrics -->
+        <div class="metrics-grid" style="margin-top: 48px;">
+          <div class="metric-card glass-card">
+            <span class="metric-number">15+</span>
+            <span class="metric-label">Completed Projects</span>
+          </div>
+          <div class="metric-card glass-card">
+            <span class="metric-number">100%</span>
+            <span class="metric-label">Code Quality & Precision</span>
+          </div>
+          <div class="metric-card glass-card">
+            <span class="metric-number">24/7</span>
+            <span class="metric-label">Dedication to Craft</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section class="skills-section section" id="skills">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Expertise</span>
+          <h2 class="section-title">Development <span class="gradient-text">Skills & Tools</span></h2>
+          <p class="section-desc">Technologies and workflow tools I use to bring ideas to life.</p>
+        </div>
+
+        <div class="skills-block">
+          <h3 class="skills-group-title"><i class="ri-terminal-box-line"></i> Technologies & Languages</h3>
+          <div class="skills-grid">
+            <div class="skill-item"><i class="ri-html5-fill"></i><span>HTML5</span></div>
+            <div class="skill-item"><i class="ri-css3-fill"></i><span>CSS3</span></div>
+            <div class="skill-item"><i class="ri-javascript-fill"></i><span>JavaScript (ES6+)</span></div>
+            <div class="skill-item"><i class="ri-reactjs-line"></i><span>React.js</span></div>
+            <div class="skill-item"><i class="ri-tailwind-css-fill"></i><span>Tailwind CSS</span></div>
+            <div class="skill-item"><i class="ri-nodejs-line"></i><span>Node.js</span></div>
+            <div class="skill-item"><svg class="skill-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.006 2.75h5.81v.825H3.92S0 5.753 0 11.916c0 6.16 3.418 5.952 3.418 5.952h2.04v-2.868s-.11-3.418 3.36-3.418h5.756v-.85s.04-2.73-2.66-2.73zm-2.05 1.71a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm2.222 22.29c6.094 0 5.714-2.656 5.714-2.656l-.006-2.75h-5.81v-.825h8.096s3.92.478 3.92-5.685c0-6.16-3.418-5.952-3.418-5.952h-2.04v2.868s.11 3.418-3.36 3.418H8.436v.85s-.04 2.73 2.66 2.73zm2.05-1.71a1.05 1.05 0 1 1 0-2.1 1.05 1.05 0 0 1 0 2.1z"/></svg><span>Python</span></div>
+            <div class="skill-item"><i class="ri-stack-line"></i><span>Python's Libraries</span></div>
+            <div class="skill-item"><i class="ri-database-2-line"></i><span>SQL</span></div>
+            <div class="skill-item"><i class="ri-brain-line"></i><span>LLM</span></div>
+            <div class="skill-item"><svg class="skill-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.8992.8525C8.735.8525 6.17 3.4175 6.17 6.5817c0 2.102 1.1321 3.9398 2.8198 4.9366l1.6412-2.7849c.0411-.0699.0176-.1593-.0495-.2048-.6233-.4227-1.0328-1.137-1.0328-1.947 0-1.298 1.0524-2.3504 2.3505-2.3504 1.2981 0 2.3505 1.0524 2.3505 2.3505 0 .8098-.4095 1.5242-1.0328 1.947-.0671.0454-.0907.1348-.0495.2047l1.6414 2.785c1.6878-.9969 2.8199-2.8346 2.8199-4.9367 0-3.1642-2.5653-5.7292-5.7295-5.7292zm-6.17 10.8366C2.565 11.6891 0 14.2541 0 17.4183c0 3.1642 2.565 5.7292 5.7292 5.7292 3.1798 0 5.8074-2.6995 5.7275-5.8762H8.2313c-.0847 0-.1513.0717-.1519.1564-.0082 1.266-1.0644 2.3411-2.3502 2.3411-1.2981 0-2.3505-1.0524-2.3505-2.3505 0-1.2982 1.0524-2.3505 2.3505-2.3505.34 0 .663.0724.9547.2022.0713.0318.1566.0077.1962-.0595l1.6464-2.7935c-.8273-.4636-1.7815-.7279-2.7973-.7279zm15.4424.7614l-1.6366 2.7878c-.041.07-.0172.1594.05.2048.624.4217 1.0348 1.1354 1.0363 1.9452.0022 1.298-1.0483 2.352-2.3465 2.3542-1.298.0023-2.3523-1.0482-2.3545-2.3462-.0015-.8098.4068-1.5248 1.0294-1.9486.067-.0457.0905-.1353.0492-.2051l-1.6464-2.7818c-1.6859.9998-2.8146 2.8394-2.811 4.9415.0056 3.1641 2.575 5.7248 5.7393 5.7192 3.1641-.0054 5.7246-2.575 5.7192-5.7392-.0037-2.1022-1.139-3.938-2.8284-4.9318z"/></svg><span>OpenCV</span></div>
+            <div class="skill-item"><i class="ri-git-branch-line"></i><span>Git &amp; GitHub</span></div>
+          </div>
+        </div>
+
+        <div class="skills-block" style="margin-top: 40px;">
+          <h3 class="skills-group-title"><i class="ri-tools-line"></i> Workflow Tools</h3>
+          <div class="skills-grid">
+            <div class="skill-item"><i class="ri-code-box-line"></i><span>VS Code</span></div>
+            <div class="skill-item"><svg class="skill-svg-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.157 22.201A1.784 1.799 0 0 1 5.374 24a1.784 1.799 0 0 1-1.784-1.799 1.784 1.799 0 0 1 1.784-1.799 1.784 1.799 0 0 1 1.783 1.799zM20.582 1.427a1.415 1.427 0 0 1-1.415 1.428 1.415 1.427 0 0 1-1.416-1.428A1.415 1.427 0 0 1 19.167 0a1.415 1.427 0 0 1 1.415 1.427zM4.992 3.336A1.047 1.056 0 0 1 3.946 4.39a1.047 1.056 0 0 1-1.047-1.055A1.047 1.056 0 0 1 3.946 2.28a1.047 1.056 0 0 1 1.046 1.056zm7.336 1.517c3.769 0 7.06 1.38 8.768 3.424a9.363 9.363 0 0 0-3.393-4.547 9.238 9.238 0 0 0-5.377-1.728A9.238 9.238 0 0 0 6.95 3.73a9.363 9.363 0 0 0-3.394 4.547c1.713-2.04 5.004-3.424 8.772-3.424zm.001 13.295c-3.768 0-7.06-1.381-8.768-3.425a9.363 9.363 0 0 0 3.394 4.547A9.238 9.238 0 0 0 12.33 21a9.238 9.238 0 0 0 5.377-1.729 9.363 9.363 0 0 0 3.393-4.547c-1.712 2.044-5.003 3.425-8.772 3.425Z"/></svg><span>Jupyter Notebook</span></div>
+            <div class="skill-item"><svg class="skill-svg-icon" viewBox="0 0 128 128" fill="currentColor" aria-hidden="true"><path d="M100.402 127.243c-.126.501-.627.752-1.502.752H82.168c-1.007 0-1.876-.438-2.632-1.317L51.91 91.531l-7.706 7.33v27.258c0 1.255-.628 1.881-1.88 1.881h-12.97c-1.254 0-1.88-.626-1.88-1.88V1.876c0-1.25.625-1.877 1.88-1.877h12.97c1.253 0 1.882.628 1.882 1.876v76.501l33.08-33.457c.878-.875 1.755-1.315 2.631-1.315h17.295c.75 0 1.25.315 1.504.937.252.753.19 1.316-.19 1.693L63.561 80.062l36.465 45.3c.499.502.625 1.128.38 1.881"/></svg><span>Kaggle</span></div>
+            <div class="skill-item"><i class="ri-github-fill"></i><span>GitHub</span></div>
+            <div class="skill-item"><i class="ri-chrome-line"></i><span>Chrome DevTools</span></div>
+            <div class="skill-item"><i class="ri-open-source-line"></i><span>Open Source</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section class="projects-section section" id="projects">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Featured Work</span>
+          <h2 class="section-title">I Make Incredible <span class="gradient-text">Projects</span></h2>
+          <p class="section-desc">Selected works showcasing clean code, real-time interactivity, and fluid design.</p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Project 1: Jarvis AI Desktop Assistant -->
+          <article class="project-card glass-card">
+            <div class="project-top">
+              <span class="project-tag">01 / AI &amp; Machine Learning</span>
+              <a href="https://www.linkedin.com/posts/suny-sarkar-41060a32a_al-jarvis-chatgpt-activity-7362501005588008960-CZYx/?utm_source=share&amp;utm_medium=member_desktop&amp;rcm=ACoAAFMHLcwBMPfpxsjszWE7yu3gFSKeN6RFTHE" target="_blank" rel="noopener" class="project-external-btn" title="View Demo on LinkedIn">
+                <i class="ri-arrow-right-up-line"></i>
+              </a>
+            </div>
+            <h3 class="project-title">Jarvis AI Desktop Assistant</h3>
+            <span class="project-date" style="display: block; font-size: 0.84rem; font-weight: 600; color: var(--accent-yellow); margin-top: -6px; margin-bottom: 12px; letter-spacing: 0.02em;">06/2025 – 08/2025</span>
+            <p class="project-description">
+              Built a voice-activated AI assistant with desktop automation features. Integrated Speech-Recognition and PyAutoGUI for smart command execution and intelligent OS control.
+            </p>
+            <div class="project-tech-stack">
+              <span>Python</span>
+              <span>SpeechRecognition</span>
+              <span>PyAutoGUI</span>
+              <span>Voice AI</span>
+              <span>Automation</span>
+            </div>
+          </article>
+
+          <!-- Project 2: Diabetes Prediction System -->
+          <article class="project-card glass-card">
+            <div class="project-top">
+              <span class="project-tag">02 / AI &amp; Machine Learning</span>
+              <a href="https://www.linkedin.com/posts/suny-sarkar-41060a32a_python-ml-improvemyskill-activity-7345707568117272578-Dgvk/?utm_source=share&amp;utm_medium=member_desktop&amp;rcm=ACoAAFMHLcwBMPfpxsjszWE7yu3gFSKeN6RFTHE" target="_blank" rel="noopener" class="project-external-btn" title="View Demo on LinkedIn">
+                <i class="ri-arrow-right-up-line"></i>
+              </a>
+            </div>
+            <h3 class="project-title">Diabetes Prediction System</h3>
+            <span class="project-date" style="display: block; font-size: 0.84rem; font-weight: 600; color: var(--accent-yellow); margin-top: -6px; margin-bottom: 12px; letter-spacing: 0.02em;">04/2025 – 05/2025</span>
+            <p class="project-description">
+              Developed a high-accuracy machine learning model to predict diabetes using Python and ML algorithms. Achieved 90% accuracy utilizing Logistic Regression and Random Forest models.
+            </p>
+            <div class="project-tech-stack">
+              <span>Python</span>
+              <span>Scikit-Learn</span>
+              <span>Random Forest</span>
+              <span>Logistic Regression</span>
+              <span>Machine Learning</span>
+            </div>
+          </article>
+
+          <!-- Project 3: Habot-LSA Service Booking Module -->
+          <article class="project-card glass-card">
+            <div class="project-top">
+              <span class="project-tag">03 / Backend &amp; API</span>
+              <a href="https://github.com/suny-sarkar/habot-lsa-booking1" target="_blank" rel="noopener" class="project-external-btn" title="View on GitHub">
+                <i class="ri-arrow-right-up-line"></i>
+              </a>
+            </div>
+            <h3 class="project-title">Habot-LSA Service Booking Module</h3>
+            <p class="project-description">
+              A production-style prototype backend for booking Learning Support Assistants (LSAs) for parents, built with Django and Django REST Framework (DRF).
+            </p>
+            <div class="project-tech-stack">
+              <span>Django</span>
+              <span>DRF</span>
+              <span>Python</span>
+              <span>REST API</span>
+              <span>Backend Architecture</span>
+            </div>
+          </article>
+
+          <!-- Project 4: Amazon UI Clone -->
+          <article class="project-card glass-card">
+            <div class="project-top">
+              <span class="project-tag">04 / Web Developer</span>
+              <a href="https://www.linkedin.com/posts/sunysarkar123_coding-project-learningnewskill-activity-7315768137310760962--TER?utm_source=share&amp;utm_medium=member_desktop&amp;rcm=ACoAAFMHLcwBMPfpxsjszWE7yu3gFSKeN6RFTHE" target="_blank" rel="noopener" class="project-external-btn" title="View Demo on LinkedIn">
+                <i class="ri-arrow-right-up-line"></i>
+              </a>
+            </div>
+            <h3 class="project-title">Amazon UI Clone</h3>
+            <p class="project-description">
+              A responsive e-commerce storefront clone of Amazon built using pure HTML5 and CSS3. Focuses on modular UI decomposition, multi-tiered navigation bars, product card grid systems, and core responsive styling techniques.
+            </p>
+            <div class="project-tech-stack">
+              <span>HTML5</span>
+              <span>CSS3</span>
+              <span>Flexbox</span>
+              <span>Grid Layout</span>
+              <span>Web Development</span>
+            </div>
+          </article>
+
+          <!-- Project 5 -->
+          <article class="project-card glass-card">
+            <div class="project-top">
+              <span class="project-tag">05 / Upcoming</span>
+              <a href="#" class="project-external-btn" title="In Progress">
+                <i class="ri-arrow-right-up-line"></i>
+              </a>
+            </div>
+            <h3 class="project-title">Unpublished</h3>
+            <p class="project-description">
+              In progress
+            </p>
+            <div class="project-tech-stack">
+              <span>In Progress</span>
+              <span>Coming Soon</span>
+            </div>
+          </article>
+
+          <!-- Project 6 -->
+          <article class="project-card glass-card">
+            <div class="project-top">
+              <span class="project-tag">06 / Upcoming</span>
+              <a href="#" class="project-external-btn" title="In Progress">
+                <i class="ri-arrow-right-up-line"></i>
+              </a>
+            </div>
+            <h3 class="project-title">Unpublished</h3>
+            <p class="project-description">
+              In progress
+            </p>
+            <div class="project-tech-stack">
+              <span>In Progress</span>
+              <span>Coming Soon</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE & EDUCATION TIMELINE -->
+    <section class="timeline-section section" id="experience">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Journey</span>
+          <h2 class="section-title">Experience & <span class="gradient-text">Education</span></h2>
+        </div>
+
+        <div class="timeline">
+          <!-- Item 1: AICTE Internship -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-date">July 2025 – September 2025</span>
+              <h3 class="timeline-title-with-link">
+                <span>AI/ML Intern – AICTE Virtual Internship</span>
+                <a href="https://www.linkedin.com/in/sunysarkar123/overlay/Position/2750089787/treasury?profileId=ACoAAFMHLcwBMPfpxsjszWE7yu3gFSKeN6RFTHE" target="_blank" rel="noopener noreferrer" class="cert-link" title="View Certificate" aria-label="View AICTE Virtual Internship Certificate">
+                  <i class="ri-arrow-right-up-line"></i>
+                </a>
+              </h3>
+              <p>Worked with Python &amp; Scikit-learn on ML model building, data preprocessing, and model evaluation.</p>
+            </div>
+          </div>
+
+          <!-- Item 2: B.Tech Education -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-date">2023 – 2027</span>
+              <h3>Bachelor of Technology (B.Tech) in Computer Science &amp; Engineering</h3>
+              <p><strong>Maulana Abdul Kalam Azad University</strong> &bull; <span style="color: var(--accent-yellow); font-weight: 700;">CGPA: 8.0</span></p>
+              <p style="margin-top: 6px;">Specializing in computer science, machine learning models, algorithms, and full-stack software development.</p>
+            </div>
+          </div>
+
+          <!-- Item 3: Web & AI Engineering -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-date">2026 – Present</span>
+              <h3>Web Developer &amp; AI-ML Engineer</h3>
+              <p>Building modern web applications and intelligent AI/ML solutions with a focus on innovation, performance, and real-world impact.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Reviews</span>
+          <h2 class="section-title">What Collaborators <span class="gradient-text">Say</span></h2>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card glass-card">
+            <i class="ri-double-quotes-l quote-icon"></i>
+            <p class="testimonial-text">
+              "Suny is a dedicated and highly talented developer. His ability to build creative, responsive interfaces with buttery smooth animations made an enormous impact."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar"><i class="ri-user-smile-line"></i></div>
+              <div>
+                <h4>Creative Director</h4>
+                <span>Digital Studio</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card glass-card">
+            <i class="ri-double-quotes-l quote-icon"></i>
+            <p class="testimonial-text">
+              "Working with Suny was effortless. He has a sharp eye for aesthetic polish and writes clean, well-structured, maintainable code that performs flawlessly."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar"><i class="ri-user-star-line"></i></div>
+              <div>
+                <h4>Lead Frontend Engineer</h4>
+                <span>Tech Solutions</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card glass-card">
+            <div class="testimonial-author">
+              <div class="author-avatar"><i class="ri-user-heart-line"></i></div>
+              <div>
+                <h4>Product Manager</h4>
+                <span>Web Innovators</span>
+              </div>
+            </div>
+            <p class="testimonial-text" style="margin-top: 14px;">
+              "Suny combines deep technical rigor with creative passion. He is dependable, communicative, and always goes the extra mile to deliver exceptional results."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact-section section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Get In Touch</span>
+          <h2 class="section-title">Tell Me About Your <span class="gradient-text">Next Project</span></h2>
+          <p class="section-desc">Have an idea or looking to collaborate? Let's build something extraordinary together.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info glass-card">
+            <h3>Direct Contact</h3>
+            <p>Feel free to reach out via direct message or email. I am always open to discussing new projects and creative opportunities.</p>
+            
+            <div class="contact-items">
+              <div class="contact-item">
+                <i class="ri-mail-send-line"></i>
+                <div>
+                  <span>Email</span>
+                  <p><a href="mailto:sunysarkar003@gmail.com" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#cbd5e1'">sunysarkar003@gmail.com</a></p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i class="ri-map-pin-line"></i>
+                <div>
+                  <span>Location</span>
+                  <p>Global / Remote</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i class="ri-check-double-line"></i>
+                <div>
+                  <span>Availability</span>
+                  <p>Available for Freelance & Full-time</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-socials">
+              <a href="https://github.com/suny-sarkar" target="_blank" rel="noopener" class="social-icon" title="GitHub"><i class="ri-github-line"></i></a>
+              <a href="https://www.linkedin.com/in/sunysarkar123" target="_blank" rel="noopener" class="social-icon" title="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+              <a href="https://www.instagram.com/suny_sarkar78?igsi=MXJ0eHkxdXlka28zYg==" target="_blank" rel="noopener" class="social-icon" title="Instagram"><i class="ri-instagram-line"></i></a>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <!-- Contact Form connected to sunysarkar003@gmail.com -->
+          <form class="contact-form glass-card" id="contact-form" action="https://formsubmit.co/sunysarkar003@gmail.com" method="POST">
+            <!-- Hidden configuration for direct email forwarding -->
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_subject" value="New Portfolio Message for Suny Sarkar!">
+
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" required placeholder="e.g. John Doe">
+            </div>
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input type="email" id="email" name="email" required placeholder="john@example.com">
+            </div>
+            <div class="form-group">
+              <label for="message">Project Details</label>
+              <textarea id="message" name="message" rows="4" required placeholder="Tell me about your project or inquiry..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="contact-submit-btn" style="width: 100%;">
+              <span id="btn-text">Send Message</span> <i class="ri-send-plane-fill" id="btn-icon"></i>
+            </button>
+            <div id="form-status" class="form-status-msg" style="display: none;"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-bottom-container">
+      <span class="footer-brand">Suny Sarkar</span>
+      <p>© 2026 Suny Sarkar. Crafted with passion & fluid animations. All Rights Reserved.</p>
+      <a href="#hero" class="back-to-top" title="Back to top">
+        <i class="ri-arrow-up-line"></i> Top
+      </a>
+    </div>
+  </footer>
+
+  <script src="script.js?v=15.0"></script>
+</body>
+</html>
