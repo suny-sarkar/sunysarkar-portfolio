@@ -132,9 +132,10 @@
   }
 
   // Progressive preloader:
-  // 1. Frame 0 immediately
-  // 2. Keyframes (every 4th frame)
-  // 3. Remaining frames
+  // 1. Frame 0 immediately (painted on canvas instantly)
+  // 2. Early sequence (frames 1 to 24) for immediate smooth scroll
+  // 3. Keyframes (every 5th frame) across the timeline
+  // 4. Background non-blocking stream for remaining frames
   async function startPreloading() {
     // Step 1: Load frame 0 first and display immediately in the hero
     const frame0 = await loadSingleFrame(0);
@@ -143,19 +144,26 @@
       lastRenderedImage = frame0;
     }
 
-    // Step 2: Keyframes distributed evenly for immediate responsiveness
-    const keyframes = [];
-    for (let i = 0; i < TOTAL_FRAMES; i += 4) {
-      if (i !== 0) keyframes.push(i);
+    // Step 2: Early frames for instant smooth initial scroll
+    const earlyFrames = [];
+    for (let i = 1; i <= 24 && i < TOTAL_FRAMES; i++) {
+      earlyFrames.push(i);
     }
-    await loadInBatches(keyframes, 6);
+    await loadInBatches(earlyFrames, 4);
 
-    // Step 3: All remaining frames in parallel
+    // Step 3: Keyframes distributed evenly across the rest
+    const keyframes = [];
+    for (let i = 25; i < TOTAL_FRAMES; i += 5) {
+      keyframes.push(i);
+    }
+    await loadInBatches(keyframes, 4);
+
+    // Step 4: All remaining frames stream quietly in background without blocking
     const remaining = [];
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       if (!frames[i]) remaining.push(i);
     }
-    await loadInBatches(remaining, 8);
+    loadInBatches(remaining, 4);
   }
 
   async function loadInBatches(indices, concurrency) {
