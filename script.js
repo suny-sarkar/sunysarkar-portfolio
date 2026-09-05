@@ -1,256 +1,162 @@
 (() => {
-  const TOTAL_FRAMES = 207;
-  const FOLDER_PATH = 'ezgif-1466cabf9db57347-png-split';
-  const FRAME_PREFIX = 'ezgif-frame-';
-  const LERP_FACTOR = 0.09; // Butter-smooth easing factor
+  // --- 1. Ambient Hero Video Controller with Synchronized Pop & Fade Animation ---
+  const heroVideo = document.getElementById('hero-bg-video');
+  const heroLeft = document.getElementById('hero-left');
+  const heroRight = document.getElementById('hero-right');
+  const scrollHint = document.getElementById('hero-scroll-hint');
 
-  const canvas = document.getElementById('animation-canvas');
-  const ctx = canvas ? canvas.getContext('2d', { alpha: false }) : null;
-  const progressBar = document.getElementById('loader-progress');
-  const heroTrack = document.getElementById('hero');
-  const heroContent = document.getElementById('hero-content');
+  let isVideoActive = false;
 
-  if (!canvas || !ctx) return;
+  if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.playsInline = true;
+    // Set video playback speed slightly faster for responsive, snappy feel
+    heroVideo.playbackRate = 1.08;
 
-  // Array of loaded Image elements
-  const frames = new Array(TOTAL_FRAMES).fill(null);
-  const loadPromises = new Array(TOTAL_FRAMES).fill(null);
-  let loadedCount = 0;
-  let lastRenderedImage = null;
-  let currentProgress = 0;
-  let targetProgress = 0;
-  let isResized = true;
-
-  // Frame URL generator (1-indexed, 3 digits zero-padded)
-  function getFrameUrl(index) {
-    const frameNum = String(index + 1).padStart(3, '0');
-    return `${FOLDER_PATH}/${FRAME_PREFIX}${frameNum}.png`;
-  }
-
-  // Handle Retina / HiDPI canvas sizing
-  function resizeCanvas() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const displayWidth = canvas.clientWidth || window.innerWidth;
-    const displayHeight = canvas.clientHeight || window.innerHeight;
-
-    const targetW = Math.round(displayWidth * dpr);
-    const targetH = Math.round(displayHeight * dpr);
-
-    if (canvas.width !== targetW || canvas.height !== targetH) {
-      canvas.width = targetW;
-      canvas.height = targetH;
-      isResized = true;
-    }
-  }
-
-  window.addEventListener('resize', resizeCanvas, { passive: true });
-  resizeCanvas();
-
-  // Draw image to canvas in full screen cover mode for desktop, mobile, and tablet
-  function drawImageCover(image) {
-    if (!image || !image.complete || image.naturalWidth === 0) return;
-
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-    const imgWidth = image.naturalWidth;
-    const imgHeight = image.naturalHeight;
-
-    // Full screen edge-to-edge cover across all viewports
-    const scale = Math.max(canvasWidth / imgWidth, canvasHeight / imgHeight);
-    const destWidth = imgWidth * scale;
-    const destHeight = imgHeight * scale;
-    const destX = (canvasWidth - destWidth) * 0.5;
-    const destY = 0; // Natural top anchor: head portion is 100% visible below navbar
-
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(image, destX, destY, destWidth, destHeight);
-
-    // Seamlessly erase the watermark icon in the bottom corner with soft feathered smoke
-    const iconX = Math.round(destX + destWidth * 0.88);
-    const iconY = Math.round(destY + destHeight * 0.76);
-    const iconW = Math.round(destWidth * 0.075);
-    const iconH = Math.round(destHeight * 0.11);
-
-    if (iconX < canvasWidth && iconY < canvasHeight && iconX + iconW > 0 && iconY + iconH > 0) {
-      const sourceY = Math.max(0, Math.round(iconY - iconH * 1.15));
-      ctx.save();
-      ctx.filter = 'blur(8px)';
-      ctx.drawImage(canvas, iconX - 8, sourceY, iconW + 16, iconH + 16, iconX - 8, iconY - 4, iconW + 16, iconH + 16);
-      ctx.restore();
-    }
-  }
-
-  // Find the closest loaded frame so there is never a blank flash
-  function getNearestLoadedFrame(targetIdx) {
-    if (frames[targetIdx]) return frames[targetIdx];
-
-    for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
-      const prev = targetIdx - offset;
-      if (prev >= 0 && frames[prev]) return frames[prev];
-
-      const next = targetIdx + offset;
-      if (next < TOTAL_FRAMES && frames[next]) return frames[next];
-    }
-    return null;
-  }
-
-  // Update progress bar UI
-  function onFrameLoaded() {
-    loadedCount++;
-    const percent = Math.min(100, Math.round((loadedCount / TOTAL_FRAMES) * 100));
-    if (progressBar) {
-      progressBar.style.width = `${percent}%`;
-      if (loadedCount >= TOTAL_FRAMES) {
-        setTimeout(() => {
-          progressBar.classList.add('loaded');
-        }, 400);
+    // Start video playback
+    const startVideo = () => {
+      const playPromise = heroVideo.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            isVideoActive = true;
+          })
+          .catch(() => {
+            // Autoplay blocked by browser policy - unlock on first interaction
+            const unlockPlay = () => {
+              heroVideo.play().then(() => {
+                isVideoActive = true;
+              }).catch(() => {});
+              window.removeEventListener('touchstart', unlockPlay);
+              window.removeEventListener('click', unlockPlay);
+              window.removeEventListener('scroll', unlockPlay);
+            };
+            window.addEventListener('touchstart', unlockPlay, { passive: true, once: true });
+            window.addEventListener('click', unlockPlay, { passive: true, once: true });
+            window.addEventListener('scroll', unlockPlay, { passive: true, once: true });
+          });
       }
-    }
-  }
+    };
 
-  // Load a single frame via native Image
-  function loadSingleFrame(index) {
-    if (frames[index]) return Promise.resolve(frames[index]);
-    if (loadPromises[index]) return loadPromises[index];
+    heroVideo.addEventListener('playing', () => { isVideoActive = true; });
+    heroVideo.addEventListener('pause', () => { isVideoActive = false; });
 
-    const promise = new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => {
-        frames[index] = img;
-        onFrameLoaded();
-        resolve(img);
-      };
-      img.onerror = () => {
-        resolve(null);
-      };
-      img.src = getFrameUrl(index);
-    });
+    startVideo();
 
-    loadPromises[index] = promise;
-    return promise;
-  }
+    // Pause video when scrolled out of viewport to save battery & GPU
+    if ('IntersectionObserver' in window) {
+      const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            heroVideo.play().catch(() => {});
+          } else {
+            heroVideo.pause();
+          }
+        });
+      }, { threshold: 0.1 });
 
-  // Progressive preloader:
-  // 1. Frame 0 immediately (painted on canvas instantly)
-  // 2. Early sequence (frames 1 to 24) for immediate smooth scroll
-  // 3. Keyframes (every 5th frame) across the timeline
-  // 4. Background non-blocking stream for remaining frames
-  async function startPreloading() {
-    // Step 1: Load frame 0 first and display immediately in the hero
-    const frame0 = await loadSingleFrame(0);
-    if (frame0) {
-      drawImageCover(frame0);
-      lastRenderedImage = frame0;
+      videoObserver.observe(heroVideo);
     }
 
-    // Step 2: Early frames for instant smooth initial scroll
-    const earlyFrames = [];
-    for (let i = 1; i <= 24 && i < TOTAL_FRAMES; i++) {
-      earlyFrames.push(i);
-    }
-    await loadInBatches(earlyFrames, 4);
+    // Synchronized Flank Pop-up & Automatic Fade Loop
+    // Timeline Choreography:
+    // 0.00 to 0.08: Video starts moving first; font waits briefly
+    // 0.08 to 0.32: Font transition activates, slides in and pops into place
+    // 0.32 to 0.76: Full presentation peak (clear, stable reading)
+    // 0.76 to 0.98: Font transition completes and automatically fades out before video loop
+    function updateFlanks() {
+      if (heroLeft && heroRight) {
+        if (!isVideoActive && heroVideo.currentTime === 0) {
+          // If video hasn't started yet, keep flanks visible as fallback
+          heroLeft.style.opacity = '1';
+          heroLeft.style.transform = 'translate3d(0, 0, 0) scale(1)';
+          heroRight.style.opacity = '1';
+          heroRight.style.transform = 'translate3d(0, 0, 0) scale(1)';
+        } else {
+          const duration = heroVideo.duration || 7.39;
+          const progress = Math.min(1, Math.max(0, (heroVideo.currentTime % duration) / duration));
 
-    // Step 3: Keyframes distributed evenly across the rest
-    const keyframes = [];
-    for (let i = 25; i < TOTAL_FRAMES; i += 5) {
-      keyframes.push(i);
-    }
-    await loadInBatches(keyframes, 4);
+          let ease = 0;
+          let leftTranslate = -70;
+          let rightTranslate = 70;
+          let leftScale = 0.90;
+          let rightScale = 0.90;
+          let baseOpacity = 0;
+          let exitFade = 1;
 
-    // Step 4: All remaining frames stream quietly in background without blocking
-    const remaining = [];
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
-      if (!frames[i]) remaining.push(i);
-    }
-    loadInBatches(remaining, 4);
-  }
+          if (progress < 0.08) {
+            // Initial delay: video begins first, font waits
+            ease = 0;
+            leftTranslate = -70;
+            rightTranslate = 70;
+            leftScale = 0.90;
+            rightScale = 0.90;
+            baseOpacity = 0;
+            exitFade = 1;
+          } else if (progress <= 0.32) {
+            // Pop progression (cubic ease-out from 0.08 to 0.32)
+            const popFactor = (progress - 0.08) / 0.24;
+            ease = 1 - Math.pow(1 - popFactor, 3);
+            leftTranslate = -70 * (1 - ease);
+            rightTranslate = 70 * (1 - ease);
+            leftScale = 0.90 + 0.10 * ease;
+            rightScale = 0.90 + 0.10 * ease;
+            baseOpacity = ease;
+            exitFade = 1;
+          } else if (progress <= 0.76) {
+            // Full presentation peak
+            ease = 1;
+            leftTranslate = 0;
+            rightTranslate = 0;
+            leftScale = 1;
+            rightScale = 1;
+            baseOpacity = 1;
+            exitFade = 1;
+          } else {
+            // Automatic exit fade as video reaches completion (from 0.76 to 0.98)
+            ease = 1;
+            leftTranslate = 0;
+            rightTranslate = 0;
+            leftScale = 1;
+            rightScale = 1;
+            baseOpacity = 1;
+            const fadeFactor = Math.min(1, Math.max(0, (progress - 0.76) / 0.22));
+            exitFade = 1 - fadeFactor;
+          }
 
-  async function loadInBatches(indices, concurrency) {
-    let poolIndex = 0;
-    async function worker() {
-      while (poolIndex < indices.length) {
-        const idx = indices[poolIndex++];
-        await loadSingleFrame(idx);
+          // Scroll exit fade if user scrolls down into the About section
+          const scrollExit = Math.max(0, 1 - (window.scrollY / 220));
+
+          const finalOpacity = Math.max(0, Math.min(1, baseOpacity * exitFade * scrollExit)).toFixed(3);
+
+          heroLeft.style.opacity = finalOpacity;
+          heroLeft.style.transform = `translate3d(${leftTranslate.toFixed(1)}px, 0, 0) scale(${leftScale.toFixed(3)})`;
+
+          heroRight.style.opacity = finalOpacity;
+          heroRight.style.transform = `translate3d(${rightTranslate.toFixed(1)}px, 0, 0) scale(${rightScale.toFixed(3)})`;
+        }
       }
+
+      requestAnimationFrame(updateFlanks);
     }
-    const workers = Array.from({ length: concurrency }, () => worker());
-    await Promise.all(workers);
+
+    requestAnimationFrame(updateFlanks);
   }
 
-  // Compute scroll ratio based on scrolling through the Hero section
-  function getScrollFraction() {
-    if (!heroTrack) return 0;
-    const scrollableDist = heroTrack.offsetHeight - window.innerHeight;
-    if (scrollableDist <= 0) return 0;
-    const progress = window.scrollY / scrollableDist;
-    return Math.min(Math.max(progress, 0), 1);
-  }
-
-  // Smooth Animation Loop using Physics Lerp
-  function tick() {
-    targetProgress = getScrollFraction();
-
-    // Lerp smoothing
-    const delta = targetProgress - currentProgress;
-    if (Math.abs(delta) > 0.0001) {
-      currentProgress += delta * LERP_FACTOR;
-    } else {
-      currentProgress = targetProgress;
-    }
-
-    // Target frame index based on smoothed progress
-    const targetIndex = Math.min(
-      TOTAL_FRAMES - 1,
-      Math.max(0, Math.round(currentProgress * (TOTAL_FRAMES - 1)))
-    );
-
-    // Render frame to hero canvas
-    const frameToDraw = getNearestLoadedFrame(targetIndex);
-    if (frameToDraw && (frameToDraw !== lastRenderedImage || isResized)) {
-      drawImageCover(frameToDraw);
-      lastRenderedImage = frameToDraw;
-      isResized = false;
-    }
-
-    // Smoothly pop left and right text flanks with the scrolling animation of the video
-    const heroLeft = document.getElementById('hero-left');
-    const heroRight = document.getElementById('hero-right');
-    const scrollHint = document.getElementById('hero-scroll-hint');
-
-    if (heroLeft && heroRight) {
-      // Pop progression driven by scrolling animation (reaches peak between 0.25 and 0.8)
-      const popFactor = Math.min(1, Math.max(0, currentProgress / 0.28));
-      const ease = 1 - Math.pow(1 - popFactor, 3); // Cubic ease out
-
-      // Left flank slides in from left (-70px to 0) and pops into place
-      const leftTranslate = (-70 * (1 - ease)).toFixed(1);
-      const leftScale = (0.90 + 0.10 * ease).toFixed(3);
-      const leftOpacity = (0.35 + 0.65 * ease).toFixed(3);
-
-      // Right flank slides in from right (+70px to 0) and pops into place
-      const rightTranslate = (70 * (1 - ease)).toFixed(1);
-      const rightScale = (0.90 + 0.10 * ease).toFixed(3);
-      const rightOpacity = (0.35 + 0.65 * ease).toFixed(3);
-
-      // Smooth exit fade as user scrolls past 0.82 into the About section
-      const exitFade = currentProgress > 0.82 ? Math.max(0, (1 - currentProgress) / 0.18) : 1;
-
-      heroLeft.style.opacity = (leftOpacity * exitFade).toFixed(3);
-      heroLeft.style.transform = `translate3d(${leftTranslate}px, 0, 0) scale(${leftScale})`;
-
-      heroRight.style.opacity = (rightOpacity * exitFade).toFixed(3);
-      heroRight.style.transform = `translate3d(${rightTranslate}px, 0, 0) scale(${rightScale})`;
-
-      if (scrollHint) {
-        scrollHint.style.opacity = Math.max(0, 1 - currentProgress * 4).toFixed(3);
+  // Fade out scroll hint once user starts scrolling
+  if (scrollHint) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        scrollHint.style.opacity = '0';
+        scrollHint.style.pointerEvents = 'none';
+      } else {
+        scrollHint.style.opacity = '1';
+        scrollHint.style.pointerEvents = 'auto';
       }
-    }
-
-    requestAnimationFrame(tick);
+    }, { passive: true });
   }
 
-  // Mobile & Tablet Slide-out Drawer Navigation Controller
+  // --- 2. Mobile & Tablet Slide-out Drawer Navigation ---
   const navToggle = document.getElementById('nav-toggle');
   const mobileDrawer = document.getElementById('mobile-drawer');
   const drawerBackdrop = document.getElementById('drawer-backdrop');
@@ -307,7 +213,23 @@
     });
   });
 
-  // Direct Contact Form Email Forwarder to sunysarkar003@gmail.com
+  // --- 3. Smooth Anchor Scrolling for Navbar & In-page Links ---
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (!targetId || targetId === '#') return;
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // --- 4. Direct Contact Form Email Forwarder to sunysarkar003@gmail.com ---
   const contactForm = document.getElementById('contact-form');
   const submitBtn = document.getElementById('contact-submit-btn');
   const btnText = document.getElementById('btn-text');
@@ -380,16 +302,4 @@
       }
     });
   }
-
-  // Expose for debugging
-  window.__ANIMATION_DEBUG__ = {
-    getLoadedCount: () => loadedCount,
-    getCurrentProgress: () => currentProgress,
-    getTargetProgress: () => targetProgress,
-    getFrames: () => frames
-  };
-
-  // Start preloading and render loop
-  startPreloading();
-  requestAnimationFrame(tick);
 })();

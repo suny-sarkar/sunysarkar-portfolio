@@ -13,6 +13,8 @@ const MIME_TYPES = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
   '.json': 'application/json',
   '.pdf': 'application/pdf',
   '.ico': 'image/x-icon'
@@ -37,14 +39,34 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-    // Caching headers for image sequence
+    // Support HTTP Range requests for video streaming (required for iOS Safari & fast scrubbing)
+    const range = req.headers.range;
+    if (range && (ext === '.mp4' || ext === '.webm')) {
+      const parts = range.replace(/bytes=/, '').split('-');
+      const start = parseInt(parts[0], 10);
+      const end = parts[1] ? parseInt(parts[1], 10) : stats.size - 1;
+      const chunksize = (end - start) + 1;
+      const file = fs.createReadStream(filePath, { start, end });
+      res.writeHead(206, {
+        'Content-Range': `bytes ${start}-${end}/${stats.size}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': chunksize,
+        'Content-Type': contentType,
+        'Access-Control-Allow-Origin': '*'
+      });
+      file.pipe(res);
+      return;
+    }
+
+    // Default full file streaming
     const headers = {
       'Content-Type': contentType,
       'Content-Length': stats.size,
+      'Accept-Ranges': 'bytes',
       'Access-Control-Allow-Origin': '*'
     };
 
-    if (ext === '.png') {
+    if (ext === '.mp4' || ext === '.png' || ext === '.webp') {
       headers['Cache-Control'] = 'public, max-age=31536000, immutable';
     } else {
       headers['Cache-Control'] = 'no-cache';

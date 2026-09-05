@@ -526,49 +526,69 @@ body {
   text-decoration: none;
   cursor: pointer;
   position: relative;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--accent-yellow) !important;
+  color: #08070e !important;
+  border-color: var(--accent-yellow) !important;
+  font-weight: 700;
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.45);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.resume-tag-link > span:not(.resume-tooltip),
+.resume-tag-text {
+  color: #08070e !important;
+  font-weight: 700;
 }
 
 .resume-tag-link .resume-arrow-icon {
   font-size: 0.88rem;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+  color: #08070e !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-block;
   line-height: 1;
 }
 
 .resume-tag-link:hover {
-  background: var(--accent-yellow);
-  border-color: var(--accent-yellow);
-  color: #08070e;
-  box-shadow: 0 0 24px rgba(255, 215, 0, 0.6), 0 0 8px rgba(255, 215, 0, 0.3);
+  background: var(--accent-yellow) !important;
+  border-color: var(--accent-yellow) !important;
+  color: #08070e !important;
+  box-shadow: 0 0 24px rgba(255, 215, 0, 0.7), 0 0 8px rgba(255, 215, 0, 0.4);
   transform: translateY(-2px);
+}
+
+.resume-tag-link:hover > span:not(.resume-tooltip),
+.resume-tag-link:hover .resume-tag-text {
+  color: #08070e !important;
 }
 
 .resume-tag-link:hover .resume-arrow-icon {
   transform: translate(2px, -2px);
-  color: #08070e;
+  color: #08070e !important;
 }
 
+/* Tooltip on Hover matching user reference */
 .resume-tag-link .resume-tooltip {
   position: absolute;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 10px);
   left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background: rgba(15, 12, 24, 0.96);
-  border: 1px solid rgba(255, 215, 0, 0.5);
-  color: #ffffff;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  transform: translateX(-50%) translateY(5px);
+  background: #0d0a18 !important;
+  border: 1px solid rgba(255, 215, 0, 0.6) !important;
+  border-left: 3.5px solid var(--accent-yellow) !important;
+  color: #ffffff !important;
+  font-family: var(--font-primary);
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em;
   text-transform: none;
-  padding: 4px 10px;
+  padding: 5px 12px 5px 10px;
   border-radius: 6px;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
-  z-index: 10;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), 0 0 12px rgba(255, 215, 0, 0.25);
+  z-index: 50;
 }
 
 .resume-tag-link .resume-tooltip::after {
@@ -577,13 +597,14 @@ body {
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border-width: 4px;
+  border-width: 5px;
   border-style: solid;
-  border-color: rgba(255, 215, 0, 0.5) transparent transparent transparent;
+  border-color: rgba(255, 215, 0, 0.6) transparent transparent transparent;
 }
 
 .resume-tag-link:hover .resume-tooltip {
   opacity: 1;
+  color: #ffffff !important;
   transform: translateX(-50%) translateY(0);
 }
 
@@ -668,41 +689,51 @@ body {
 .hero-track {
   position: relative;
   width: 100%;
-  height: 320vh; /* Ample scroll track so full animation with wrapping hands plays completely */
-  background-color: transparent;
-}
-
-.hero-sticky-stage {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: transparent !important;
+  background-color: transparent;
   z-index: 1;
 }
 
+.hero-sticky-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: transparent !important;
+}
+
+.hero-video-wrapper,
 .hero-canvas-wrapper {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
   pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-bg-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
 }
 
 #animation-canvas {
-  display: block;
-  width: 100vw;
-  height: 100vh;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  will-change: transform;
+  display: none;
 }
 
 /* Very subtle edge vignette so typography is readable without dimming the video */
@@ -722,7 +753,7 @@ body {
   width: 100%;
   max-width: 1560px;
   margin: 0 auto;
-  padding: calc(var(--navbar-height) + 30px) 56px 40px 56px;
+  padding: calc(var(--navbar-height) + 20px) 56px 40px 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -732,7 +763,6 @@ body {
 .hero-flank {
   pointer-events: auto;
   max-width: 480px;
-  transition: opacity 0.12s ease-out, transform 0.12s ease-out;
   will-change: opacity, transform;
 }
 
@@ -792,7 +822,7 @@ body {
 
 .hero-scroll-hint {
   position: absolute;
-  bottom: 28px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
@@ -804,9 +834,15 @@ body {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  text-decoration: none;
   z-index: 10;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
+  transition: opacity 0.25s ease, color 0.25s ease;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.hero-scroll-hint:hover {
+  color: var(--accent-yellow);
 }
 
 .scroll-arrow {
@@ -833,18 +869,37 @@ body {
 }
 
 @media (max-width: 860px) {
+  .hero-track {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-top: calc(var(--navbar-height) + 10px);
+    padding-bottom: 50px;
+  }
+  .hero-sticky-stage {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
   .hero-split-container {
     flex-direction: column;
     justify-content: center;
     gap: 24px;
-    padding: calc(var(--navbar-height) + 10px) 24px 20px 24px;
+    padding: 20px 24px 40px 24px;
   }
   .hero-flank {
     max-width: 100%;
     text-align: center;
+    opacity: 1;
+    transform: none;
+  }
+  .hero-left {
+    animation: none;
   }
   .hero-right {
     margin-left: 0;
+    animation: none;
   }
   .hero-flank-bio {
     margin: 0 auto;

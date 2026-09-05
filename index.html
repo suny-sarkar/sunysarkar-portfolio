@@ -14,10 +14,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
   
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=21.0">
+  <link rel="stylesheet" href="style.css?v=26.0">
 
-  <!-- Instant Preload for 3D Hero Frame 001 -->
-  <link rel="preload" as="image" href="ezgif-1466cabf9db57347-png-split/ezgif-frame-001.png" fetchpriority="high">
+  <!-- Instant Preload for Hero Poster -->
+  <link rel="preload" as="image" href="hero-poster.webp" fetchpriority="high">
 </head>
 <body>
 
@@ -109,9 +109,11 @@
     <!-- HERO SECTION WITH BACKGROUND VIDEO ANIMATION -->
     <section class="hero-track" id="hero">
       <div class="hero-sticky-stage">
-        <!-- Background Canvas Video Animation -->
-        <div class="hero-canvas-wrapper">
-          <canvas id="animation-canvas"></canvas>
+        <!-- Background Video Animation -->
+        <div class="hero-video-wrapper">
+          <video id="hero-bg-video" class="hero-bg-video" autoplay loop muted playsinline preload="auto" poster="hero-poster.webp">
+            <source src="hero-animation.mp4" type="video/mp4">
+          </video>
           <div class="hero-canvas-overlay"></div>
         </div>
 
@@ -139,10 +141,10 @@
         </div>
 
         <!-- Scroll Hint -->
-        <div class="hero-scroll-hint" id="hero-scroll-hint">
+        <a href="#about" class="hero-scroll-hint" id="hero-scroll-hint" aria-label="Scroll to explore About section">
           <span>Scroll to explore</span>
           <i class="ri-arrow-down-line scroll-arrow"></i>
-        </div>
+        </a>
       </div>
     </section>
 
@@ -151,7 +153,7 @@
       <div class="container">
         <div class="section-header">
           <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="section-tag resume-tag-link" id="about-resume-link" title="Click to view Resume" aria-label="View Resume">
-            <span>About Me</span>
+            <span class="resume-tag-text">About Me</span>
             <i class="ri-arrow-right-up-line resume-arrow-icon" aria-hidden="true"></i>
             <span class="resume-tooltip">View Resume</span>
           </a>
@@ -572,6 +574,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=15.0"></script>
+  <script src="script.js?v=24.0"></script>
 </body>
 </html>
